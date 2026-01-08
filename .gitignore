@@ -1,0 +1,5 @@
+*.swp
+src/lexer/*yy.c
+src/parser/*tab.h
+src/parser/*tab.c
+src/build/*
