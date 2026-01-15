@@ -1,7 +1,7 @@
 ### Requisitos
 - [x] Eliminar la lógica booleana
 - [x] Eliminar la lógica de los Strings
-- [ ] Añadir las sentencias iterativas simples
+- [x] Añadir las sentencias iterativas simples
 - [ ] Añadir cambios de tipo explicitos
 - [ ] Añadir tablas unidimensionales
 - [ ] Mejorar la salida de errores
@@ -25,8 +25,8 @@ Consideraciones:
 
 #### Implementación
 - [x] Generación de código de 3A para expresiones aritmeticas
-- [ ] Generación de código de 3A para sentencias de flujo
-- [ ] Generación de código de 3A para expresiones (Print)
+- [x] Generación de código de 3A para sentencias de flujo
+- [x] Generación de código de 3A para expresiones (Print)
 - [x] Evaluación de las expressiones aritmeticas con literales en tiempo de compilación
 
 ### Opcional (+2p)

@@ -36,7 +36,7 @@ extern void yyerror(const char *s);
 %token <operator> PLUS MINUS TIMES DIVIDE MOD POW
 
 %token <identifier> IDENTIFIER UNTYPED_IDENTIFIER
-%type <no_type> statement statementList // iteration
+%type <no_type> statement statementList iteration
 
 
 %type <no_type> assignment
@@ -72,13 +72,16 @@ statement:
   declaration[id]
   | assignment[e]
   | expression[e]
-  // | iteration[e]
+  | iteration[e]
 ;
 
-// iteration:
-//   REPEAT arithmeticExpression[e] DO statementList DONE
-//   { $$ = $e; }
-// ;
+iteration:
+  REPEAT arithmeticExpression[e] DO EOL
+	{ $<identifier>$ = iterationRepeatStart(); } 
+	statementList DONE
+	{ iterationRepeatEnd(&$e, &$<identifier>5); }
+
+;
 
 declaration:
 	TYPE[t] identifierList[node]

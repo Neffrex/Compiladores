@@ -22,7 +22,7 @@ identifier_t createTemporalIdentifier(data_type_t type)
 {
   static int counter = 1;
   char buffer[STR_MAX_LENGTH];
-  snprintf(buffer, STR_MAX_LENGTH, "$t%d", counter++);
+  snprintf(buffer, STR_MAX_LENGTH, "$t%02d", counter++);
   identifier_t id = { .name = strdup(buffer), .type = type, .value = createEmptyLiteral(), .declaration_lineno = code_lineno };
   return id;
 }

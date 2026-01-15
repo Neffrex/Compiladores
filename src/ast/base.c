@@ -1,6 +1,6 @@
 #include "headers/base.h"
 
-int code_lineno = 0;
+int code_lineno = 1;
 
 literal_t createEmptyLiteral()
 {
