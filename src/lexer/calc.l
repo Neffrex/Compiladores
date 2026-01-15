@@ -12,7 +12,7 @@
 #include "../parser/calc.tab.h"
 #include "../ast/headers/compiler.h"
 
-#define TOKEN(X) log_message(LOG_INFO, "│ ► Token: %s", #X); return X
+#define TOKEN(X) log_message(LOG_INFO, LOG_MSG_TOKEN_VALUE, #X); return X
 
 void yyerror(const char *s);
 
@@ -24,11 +24,15 @@ void yyerror(const char *s);
 /* DEFINITIONS */
 DIGIT [0-9]
 INTEGER {DIGIT}+
-FLOAT {DIGIT}+"."{DIGIT}+
+FLOAT {DIGIT}*\.{DIGIT}*([eE][-+]?{DIGIT}+)?
 IDENTIFIER [a-zA-Z_][a-zA-Z0-9_]*
 
 TYPE_INTEGER "int"
 TYPE_FLOAT "float"
+
+REPEAT "repeat"
+DO "do"
+DONE "done"
 
 WHITESPACE [ \t]
 SINGLE_LINE_COMMENT "#"[^\n]*|"//"[^\n]*
@@ -48,6 +52,10 @@ EOL [\n]
 "%"          { TOKEN(MOD); }
 "**"         { TOKEN(POW); }
 ","          { TOKEN(COMMA); }
+
+{REPEAT}     { TOKEN(REPEAT); }
+{DO}         { TOKEN(DO); }
+{DONE}       { TOKEN(DONE); }
 
 {TYPE_INTEGER} {
 	yylval.type = TYPE_INTEGER;
@@ -70,14 +78,14 @@ EOL [\n]
 }
 
 {IDENTIFIER} {
-  identifier id = getIdentifier(yytext);
+  identifier_t id = getIdentifier(yytext);
   id.name = strndup(yytext, yyleng); // For uninitialized identifiers
   yylval.identifier = id;
 
   if(id.type != TYPE_UNDEFINED)
   { TOKEN(IDENTIFIER); }
   else
-  { id.lineno = yylineno-1;
+  { id.declaration_lineno = yylineno-1;
     TOKEN(UNTYPED_IDENTIFIER);
   }
 }

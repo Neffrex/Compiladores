@@ -16,8 +16,14 @@
 #define ERR_MSG_MEMORY_ALLOCATION_FAILED "[Fatal Error] Memory allocation failed\n"
 #define ERR_MSG_UNDEFINED_SEQUENCE "[Lexical Error] undefined sequence: %s\n"
 
+#define ERR_MSG_DIVISION_BY_ZERO "[Semantic Error] Division by zero\n"
+
+// TOKENS
+#define LOG_MSG_TOKEN_VALUE "Token: %s"
+
 // LITERALS
-#define LOG_MSG_LITERAL_VALUE "| ◄ Parsed literal <%s>:%s"
+#define LOG_MSG_LITERAL_VALUE "Literal <%s>:%s"
+#define LOG_MSG_IDENTIFIER_VALUE "Identifier %s:%s"
 
 // IDENTIFIERS
 #define LOG_MSG_IDENTIFIER_RETRIEVED "| ◄ Retrieved identifier %s = <%s>:%s"
@@ -25,7 +31,7 @@
 #define LOG_MSG_IDENTIFIER_ASSIGNED "├─── Assigned identifier %s ← <%s>:%s"
 
 // ARITHMETIC EXPRESSIONS
-#define LOG_MSG_ARITHMETIC_EXPRESSION "| ■ Arithmetic Expression → <%s>:%s %s <%s>:%s"
+#define LOG_MSG_ARITHMETIC_EXPRESSION "[Arithmetic Expression] → <%s>:%s %s <%s>:%s"
 #define LOG_MSG_END_OF_ARITHMETIC_EXPRESSION "│ ╰─ End of Arithmetic Expression: <%s>"
 
 // BOOLEAN EXPRESSIONS

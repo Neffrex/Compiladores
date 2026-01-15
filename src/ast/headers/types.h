@@ -25,13 +25,68 @@
 #define S_MOD "%"
 #define S_POW "**"
 
+// C3A
+#define CODE_NEGATE "CHS"
+#define CODE_PLUS "ADD"
+#define CODE_MINUS "SUB"
+#define CODE_TIMES "MUL"
+#define CODE_DIVIDE "DIV"
+#define CODE_MOD "MOD"
+#define CODE_POW "<POW (Undefined)>"
+#define CODE_F2I "F2"
+#define CODE_I2F "I2"
+#define CODE_UNDEFINED "<undefined>"
 
+#define CODE_INTEGER_SUFIX "I"
+#define CODE_FLOAT_SUFIX "F"
+
+// Literals
+typedef enum data_type_t {
+	TYPE_UNDEFINED,
+	TYPE_INTEGER,
+	TYPE_FLOAT
+} data_type_t;
+
+typedef struct {
+	data_type_t type;
+	union {
+		int ivalue;
+		float fvalue;
+	};	
+} literal_t;
+
+// Identifiers
+typedef struct {
+	char* name;
+	data_type_t type;
+	literal_t value;
+	int declaration_lineno;
+} identifier_t;
+
+typedef struct identifier_node_t {
+	identifier_t id;
+  struct identifier_node_t* next;
+} identifier_node_t;
+
+
+// Operands
 typedef enum {
-  TYPE_UNDEFINED,
-  TYPE_INTEGER,
-  TYPE_FLOAT
-} type_t;
+	OPERAND_UNDEFINED,
+	OPERAND_LITERAL,
+	OPERAND_IDENTIFIER
+} operand_type_t;
 
+typedef struct {
+	operand_type_t type;
+	union {
+		literal_t literal;
+		identifier_t identifier;
+	};
+} operand_t;
+
+
+
+// Operators
 typedef enum {
   OP_UNDEFINED,
   OP_NEGATE,
@@ -41,31 +96,18 @@ typedef enum {
   OP_DIVIDE,
   OP_MOD,
   OP_POW,
-} op_type;
+	OP_I2F,
+	OP_F2I
+} op_type_t;
 
-typedef struct {
-  type_t type;
-	union {
-		int ivalue;
-		float fvalue;
-	};	
-} literal;
-
-typedef struct {
-	char* name;
-	type_t type;
-	literal value;
-	int lineno;
-} identifier;
-
-typedef struct identifier_node {
-  identifier id;
-  struct identifier_node* next;
-} identifier_node;
-
-bool isNullLiteral(literal*);
-bool isInteger(literal*);
-bool isFloat(literal*);
-char* literal2str(literal*);
-const char* type2str(type_t);
-const char* op2str(op_type);
+bool isNullLiteral(literal_t* literal);
+bool isInteger(literal_t* literal);
+bool isFloat(literal_t* literal);
+bool isOperandInteger(operand_t* operand);
+bool isOperandFloat(operand_t* operand);
+char* literal2str(literal_t* literal);
+const char* type2str(data_type_t type);
+const char* op2str(op_type_t op);
+const data_type_t getOperandDataType(operand_t* operand);
+const char* operand2str(operand_t* operand);
+const char* op2code(op_type_t op);

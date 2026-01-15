@@ -12,7 +12,7 @@ int cprint(FILE* stream, const char* format, ...)
   {
     if(*cursor == '%' && *(cursor+1) == 'v')
     { // Custom '%v' format specifier
-      literal* value = va_arg(args, literal*);
+      literal_t* value = va_arg(args, literal_t*);
       char *buffer = literal2str(value);
       fprintf(stream, "%s", buffer);
       written += strlen(buffer);

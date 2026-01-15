@@ -18,3 +18,25 @@ i := i + 1
 done
 
 fact
+
+
+statementList: List<statement>
+statement: assignment | expression | repeat
+assignment: identifier + expression
+expression: op + expression 
+            | expression + op + expression 
+            | expression
+arithmeticExpression: identifier | literal
+repeat
+
+<statementList>
+[0]: <statement>
+    - <assignment>
+        - <identifier>
+        - <arithmeticExpression> 
+            - <literal> 5.0
+[1]: <statement>
+    - <assignment>
+        - <identifier>
+        - <literal>
+            - <integer> 3

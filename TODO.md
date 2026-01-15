@@ -1,11 +1,11 @@
 ### Requisitos
 - [x] Eliminar la lógica booleana
 - [x] Eliminar la lógica de los Strings
-- [ ] Añadir notación cientifica 
 - [ ] Añadir las sentencias iterativas simples
 - [ ] Añadir cambios de tipo explicitos
 - [ ] Añadir tablas unidimensionales
 - [ ] Mejorar la salida de errores
+- [ ] Añadir notación cientifica 
 
 ### Mejoras de código
 - [ ] Funciones de log en el log.c
@@ -24,10 +24,10 @@ Consideraciones:
 - En caso de **no haber apuntadores** **no** hace falta utilizar las proposiciones de 3A correspondientes
 
 #### Implementación
-- [ ] Generación de código de 3A para expresiones aritmeticas
+- [x] Generación de código de 3A para expresiones aritmeticas
 - [ ] Generación de código de 3A para sentencias de flujo
 - [ ] Generación de código de 3A para expresiones (Print)
-- [ ] Evaluación de las expressiones aritmeticas con literales en tiempo de compilación
+- [x] Evaluación de las expressiones aritmeticas con literales en tiempo de compilación
 
 ### Opcional (+2p)
 - [ ] Añadir tabla bidimensionales

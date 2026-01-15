@@ -1,0 +1,88 @@
+[INFO] Token: TYPE
+[INFO] Token: UNTYPED_IDENTIFIER
+[INFO] Token: COMMA
+[INFO] Token: UNTYPED_IDENTIFIER
+[INFO] Token: EOL
+[INFO] ├─── Declared identifier y:float
+[INFO] ├─── Declared identifier x:float
+[INFO] ╰┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉ Line 2: End of statement ┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉
+
+[INFO] Token: TYPE
+[INFO] Token: UNTYPED_IDENTIFIER
+[INFO] Token: COMMA
+[INFO] Token: UNTYPED_IDENTIFIER
+[INFO] Token: COMMA
+[INFO] Token: UNTYPED_IDENTIFIER
+[INFO] Token: EOL
+[INFO] ├─── Declared identifier fact:integer
+[INFO] ├─── Declared identifier n:integer
+[INFO] ├─── Declared identifier i:integer
+[INFO] ╰┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉ Line 3: End of statement ┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉
+
+[INFO] | ◄ Retrieved identifier x = <UNDEFINED>:float
+[INFO] Token: IDENTIFIER
+[INFO] Token: ASSIGN
+[INFO] Token: FLOAT
+[INFO] Literal <5.000>:float
+[INFO] Token: EOL
+[INFO] ├─── Assigned identifier x ← <5.000>:float
+[INFO] ╰┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉ Line 6: End of statement ┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉
+
+[INFO] | ◄ Retrieved identifier i = <UNDEFINED>:integer
+[INFO] Token: IDENTIFIER
+[INFO] Token: ASSIGN
+[INFO] Token: INTEGER
+[INFO] Literal <3>:integer
+[INFO] Token: EOL
+[INFO] ├─── Assigned identifier i ← <3>:integer
+[INFO] ╰┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉ Line 7: End of statement ┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉
+
+[INFO] | ◄ Retrieved identifier y = <UNDEFINED>:float
+[INFO] Token: IDENTIFIER
+[INFO] Token: ASSIGN
+[INFO] | ◄ Retrieved identifier i = <UNDEFINED>:integer
+[INFO] Token: IDENTIFIER
+[INFO] Identifier i:integer
+[INFO] Token: PLUS
+[INFO] | ◄ Retrieved identifier i = <UNDEFINED>:integer
+[INFO] Token: IDENTIFIER
+[INFO] Identifier i:integer
+[INFO] Token: TIMES
+[INFO] Token: INTEGER
+[INFO] Literal <3>:integer
+[INFO] Token: MINUS
+[INFO] | ◄ Retrieved identifier x = <UNDEFINED>:float
+[INFO] Token: IDENTIFIER
+[INFO] Identifier x:float
+[INFO] Token: EOL
+[INFO] ├─── Assigned identifier y ← <$t4>:float
+[INFO] ╰┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉ Line 8: End of statement ┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉
+
+[INFO] | ◄ Retrieved identifier n = <UNDEFINED>:integer
+[INFO] Token: IDENTIFIER
+[INFO] Token: ASSIGN
+[INFO] Token: INTEGER
+[INFO] Literal <10>:integer
+[INFO] Token: EOL
+[INFO] ├─── Assigned identifier n ← <10>:integer
+[INFO] ╰┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉ Line 11: End of statement ┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉
+
+[INFO] | ◄ Retrieved identifier fact = <UNDEFINED>:integer
+[INFO] Token: IDENTIFIER
+[INFO] Token: ASSIGN
+[INFO] Token: INTEGER
+[INFO] Literal <1>:integer
+[INFO] Token: EOL
+[INFO] ├─── Assigned identifier fact ← <1>:integer
+[INFO] ╰┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉ Line 12: End of statement ┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉
+
+[INFO] | ◄ Retrieved identifier i = <UNDEFINED>:integer
+[INFO] Token: IDENTIFIER
+[INFO] Token: ASSIGN
+[INFO] Token: INTEGER
+[INFO] Literal <2>:integer
+[INFO] Token: EOL
+[INFO] ├─── Assigned identifier i ← <2>:integer
+[INFO] ╰┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉ Line 13: End of statement ┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉
+
+[INFO] Token: REPEAT

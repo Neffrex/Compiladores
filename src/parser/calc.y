@@ -18,36 +18,38 @@ extern void yyerror(const char *s);
 
 %union {
   bool boolean;
-  literal literal;
-  identifier identifier;
-  identifier_node* p_identifier_node;
-  op_type operator;
-	type_t type;
+  literal_t literal;
+  identifier_t identifier;
+  identifier_node_t* p_identifier_node;
+  op_type_t operator;
+	operand_t operand;
+	data_type_t type;
   void* no_type;
+
 }
 
 %token <no_type> EOL YYEOF LPAREN RPAREN ASSIGN COMMA
-%token <no_type> SIN COS TAN LEN SUBSTR
+%token <no_type> REPEAT DO DONE
 %token <type> TYPE
 
-%token <literal> INTEGER FLOAT STRING CONSTANT
+%token <literal> INTEGER FLOAT
 %token <operator> PLUS MINUS TIMES DIVIDE MOD POW
 
 %token <identifier> IDENTIFIER UNTYPED_IDENTIFIER
-%type <no_type> statement
+%type <no_type> statement statementList // iteration
 
 
-%type <identifier> assignment
-%type <p_identifier_node> declaration
-%type <literal> expression
+%type <no_type> assignment
+%type <no_type> declaration
+%type <no_type> expression
 %type <p_identifier_node> identifierList
 
-%type <literal> arithmeticExpression
-%type <literal> arithmeticExpressionA
-%type <literal> arithmeticExpressionM
-%type <literal> arithmeticExpressionP
-%type <literal> arithmeticExpressionX
-%type <literal> arithmeticFunction
+
+%type <operand> arithmeticExpression
+%type <operand> arithmeticExpressionM
+%type <operand> arithmeticExpressionP
+%type <operand> arithmeticExpressionX
+%type <literal> arithmeticExpressionLiteral
 
 %define parse.error verbose
 
@@ -62,20 +64,21 @@ program:
 
 statementList:
   %empty
-| statementList statement EOL
+| statementList statement[s] EOL
 { log_message(LOG_INFO, LOG_MSG_END_OF_STATEMENT, yylineno-1);}
 ;
 
 statement:
   declaration[id]
-	{ for (identifier_node* current = $id; current != NULL; current = current->next) 
-    { cprint(yyout, "%s:%s%s", current->id.name, type2str(current->id.type), current->next != NULL? ", ": "\n"); }
-  }
-  | assignment[id]
-  { cprint(yyout, "%s:%s = <%v>:%s\n", $id.name, type2str($id.type), &($id.value), type2str($id.value.type)); }
+  | assignment[e]
   | expression[e]
-  { cprint(yyout, "<%v>:%s\n", &$e, type2str($e.type)); }
+  // | iteration[e]
 ;
+
+// iteration:
+//   REPEAT arithmeticExpression[e] DO statementList DONE
+//   { $$ = $e; }
+// ;
 
 declaration:
 	TYPE[t] identifierList[node]
@@ -91,24 +94,23 @@ identifierList:
 
 assignment:
   IDENTIFIER[l] ASSIGN arithmeticExpression[r]
-  { $$ = assign(&$l, $r); }
+	{ assign(&$l, &$r); }
 ;
 
 expression:
-  arithmeticExpression
-
-arithmeticExpression:
-  arithmeticExpressionA 
+  arithmeticExpression[e]
+	{ expression(&$e); }
 ;
 
-arithmeticExpressionA:
+
+arithmeticExpression:
   arithmeticExpressionM
-  | arithmeticExpressionA[l] PLUS arithmeticExpressionM[r]
-  { $$ = arithmeticExpressionPlus(&$l, &$r); }
-  | arithmeticExpressionA[l] MINUS arithmeticExpressionM[r]
-  { $$ = arithmeticExpressionMinus(&$l, &$r); }
+  | arithmeticExpression[l] PLUS arithmeticExpressionM[r]
+  { $$ = arithmeticExpressionBinary(&$l, OP_PLUS, &$r); }
+  | arithmeticExpression[l] MINUS arithmeticExpressionM[r]
+  { $$ = arithmeticExpressionBinary(&$l, OP_MINUS, &$r); }
   | MINUS arithmeticExpressionM[r]
-  { $$ = arithmeticExpressionNegate(&$r); }
+  { $$ = arithmeticExpressionUnary(OP_NEGATE, &$r); }
   | PLUS arithmeticExpressionM[r]
   { $$ = $r; }
 ;
@@ -116,28 +118,30 @@ arithmeticExpressionA:
 arithmeticExpressionM:
   arithmeticExpressionP
   | arithmeticExpressionM[l] MOD arithmeticExpressionP[r]
-  { $$ = arithmeticExpressionMod(&$l, &$r); }
+  { $$ = arithmeticExpressionBinary(&$l, OP_MOD, &$r); }
   | arithmeticExpressionM[l] TIMES arithmeticExpressionP[r]
-  { $$ = arithmeticExpressionTimes(&$l, &$r); }
+  { $$ = arithmeticExpressionBinary(&$l, OP_TIMES, &$r); }
   | arithmeticExpressionM[l] DIVIDE arithmeticExpressionP[r]
-  { $$ = arithmeticExpressionDivide(&$l, &$r); }
+  { $$ = arithmeticExpressionBinary(&$l, OP_DIVIDE, &$r); }
 ;
 
 arithmeticExpressionP:
   arithmeticExpressionX
   | arithmeticExpressionP[l] POW arithmeticExpressionX[r]
-  { $$ = arithmeticExpressionPow(&$l, &$r); }
+  { $$ = arithmeticExpressionBinary(&$l, OP_POW, &$r); }
 ;
 
 arithmeticExpressionX:
-  INTEGER[x]
-  { $$ = arithmeticExpressionLiteral(&$x); }
-  | FLOAT[x]
+  arithmeticExpressionLiteral[x]
   { $$ = arithmeticExpressionLiteral(&$x); }
   | IDENTIFIER[x]
-  { $$ = $x.value; }
+  { $$ = arithmeticExpressionIdentifier(&$x); }
   | LPAREN arithmeticExpression[x] RPAREN
   { $$ = $x; }
+;
+
+arithmeticExpressionLiteral:
+	INTEGER | FLOAT
 ;
 
 %%

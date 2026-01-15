@@ -7,7 +7,12 @@
 #include "messages.h"
 #include "identifier.h"
 
-literal createEmptyLiteral();
-literal createIntegerLiteral(int);
-literal createFloatLiteral(float);
 
+extern int code_lineno;
+
+literal_t createEmptyLiteral();
+literal_t createIntegerLiteral(int);
+literal_t createFloatLiteral(float);
+
+operand_t createOperandFromLiteral(literal_t* value);
+operand_t createOperandFromIdentifier(identifier_t* id);

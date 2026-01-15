@@ -1,19 +1,27 @@
 #pragma once
 #include "base.h"
 
-literal arithmeticExpressionLiteral(literal* value);
+#define SUFIX(type) (type == TYPE_FLOAT) ? CODE_FLOAT_SUFIX : CODE_INTEGER_SUFIX
+#define PROMOTED_LEFT -1
+#define PROMOTED_RIGHT 1
+#define NO_PROMOTION 0
 
-void logArithmeticExpressionEntry(literal*, op_type, literal*);
-void logArithmeticExpressionExit(literal);
-literal arithmeticExpression(literal*, op_type, literal*);
+extern int code_lineno;
+extern FILE* yyout;
 
-literal handleFloatArithmetic(literal*, op_type, literal*);
-literal handleIntegerArithmetic(literal*, op_type, literal*);
+operand_t arithmeticExpressionLiteral(literal_t* value);
+operand_t arithmeticExpressionIdentifier(identifier_t* id);
 
-literal arithmeticExpressionPlus(literal*, literal*);
-literal arithmeticExpressionMinus(literal*, literal*);
-literal arithmeticExpressionTimes(literal*, literal*);
-literal arithmeticExpressionDivide(literal*, literal*);
-literal arithmeticExpressionMod(literal*, literal*);
-literal arithmeticExpressionPow(literal*, literal*);
-literal arithmeticExpressionNegate(literal*);
+void logArithmeticExpressionUnaryEntry(op_type_t op, operand_t* operand);
+void logArithmeticExpressionBinaryEntry(operand_t* loperand, op_type_t op, operand_t* roperand);
+void logArithmeticExpressionResolution(literal_t* result) ;
+
+operand_t arithmeticExpressionBinary(operand_t* loperand, op_type_t op, operand_t* roperand);
+literal_t computeArithmeticExpressionBinary(literal_t* loperand, op_type_t op, literal_t* roperand);
+operand_t arithmeticExpressionUnary(op_type_t op, operand_t* operand);
+literal_t computeArithmeticExpressionUnary(op_type_t op, literal_t* operand);
+
+int typePromotion(operand_t* result, operand_t* loperand, operand_t* roperand);
+operand_t generateBinaryOperationCode(operand_t* loperand, op_type_t op, operand_t* roperand);
+operand_t generateUnaryOperationCode(op_type_t op, operand_t* operand);
+void generatePowC3aCode(identifier_t* result, operand_t* loperand, operand_t* roperand);
