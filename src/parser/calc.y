@@ -29,13 +29,13 @@ extern void yyerror(const char *s);
 }
 
 %token <no_type> EOL YYEOF LPAREN RPAREN ASSIGN COMMA
-%token <no_type> REPEAT DO DONE
+%token <no_type> REPEAT DO DONE LBRACKET RBRACKET
 %token <type> TYPE
 
 %token <literal> INTEGER FLOAT
 %token <operator> PLUS MINUS TIMES DIVIDE MOD POW
 
-%token <identifier> IDENTIFIER UNTYPED_IDENTIFIER
+%token <identifier> IDENTIFIER UNDECLARED_IDENTIFIER
 %type <no_type> statement statementList iteration
 
 
@@ -59,7 +59,7 @@ extern void yyerror(const char *s);
 
 program: 
   statementList YYEOF
-  { log_message(LOG_INFO, LOG_MSG_END_OF_PROGRAM, yylineno); }
+  { endOfProgram(); }
 ;
 
 statementList:
@@ -89,10 +89,18 @@ declaration:
 ;
 
 identifierList:
-  UNTYPED_IDENTIFIER[id]
-  { $$ = createIdentifierNode(NULL, &$id, TYPE_UNDEFINED); }
-  | identifierList COMMA UNTYPED_IDENTIFIER[id]
-  { $$ = createIdentifierNode($1, &$id, TYPE_UNDEFINED); }
+	UNDECLARED_IDENTIFIER[id]
+	{ identifier_t identifier = createIdentifier($id.name);
+		$$ = createIdentifierNode(&identifier, NULL); }
+  | UNDECLARED_IDENTIFIER[id] LBRACKET INTEGER[size] RBRACKET
+	{	identifier_t array = createArrayIdentifier($id.name, $size.ivalue);
+		$$ = createIdentifierNode(&array, NULL); }
+  | UNDECLARED_IDENTIFIER[id] COMMA identifierList[next]
+	{	identifier_t identifier = createIdentifier($id.name);
+		$$ = createIdentifierNode(&identifier, $next); }
+  | UNDECLARED_IDENTIFIER[id] LBRACKET INTEGER[size] RBRACKET COMMA identifierList[next]
+	{	identifier_t array = createArrayIdentifier($id.name, $size.ivalue);
+		$$ = createIdentifierNode(&array, $next); }
 ;
 
 assignment:

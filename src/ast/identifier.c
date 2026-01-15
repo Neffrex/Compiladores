@@ -27,13 +27,33 @@ identifier_t createTemporalIdentifier(data_type_t type)
   return id;
 }
 
-identifier_node_t* createIdentifierNode(identifier_node_t* head, identifier_t* id, data_type_t type)
+identifier_t createArrayIdentifier(char* name, int size)
+{
+	identifier_t result;
+	result.name = name;
+	result.isArray = true;
+	result.type = TYPE_UNDEFINED;
+	result.elements = NULL;
+	result.size = size;
+	result.declaration_lineno = yylineno-1;
+	return result;
+}
+
+identifier_t createIdentifier(char* name)
+{
+	identifier_t result;
+	result.name = name;
+	result.isArray = true;
+	result.type = TYPE_UNDEFINED;
+	result.declaration_lineno = yylineno-1;
+	return result;
+}
+
+identifier_node_t* createIdentifierNode(identifier_t* id, identifier_node_t* next)
 {
   identifier_node_t* new_node = (identifier_node_t*) malloc (sizeof(identifier_node_t));
-  new_node->id.name = strdup(id->name);
-  new_node->id.type = type;
-  new_node->id.declaration_lineno = id->declaration_lineno;
-  new_node->next = head;
+  new_node->id = *id;
+  new_node->next = next;
   return new_node;
 }
 

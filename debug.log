@@ -1,19 +1,25 @@
 [INFO] Token: TYPE
-[INFO] Token: UNTYPED_IDENTIFIER
+[INFO] Token: UNDECLARED_IDENTIFIER
+[INFO] Token: COMMA
+[INFO] Token: UNDECLARED_IDENTIFIER
 [INFO] Token: EOL
 [INFO] ├─── Declared identifier x:float
+[INFO] ├─── Declared identifier y:float
 [INFO] ╰┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉ Line 2: End of statement ┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉
 
 [INFO] Token: TYPE
-[INFO] Token: UNTYPED_IDENTIFIER
+[INFO] Token: UNDECLARED_IDENTIFIER
+[INFO] Token: LBRACKET
+[INFO] Token: INTEGER
+[INFO] Token: RBRACKET
 [INFO] Token: COMMA
-[INFO] Token: UNTYPED_IDENTIFIER
+[INFO] Token: UNDECLARED_IDENTIFIER
 [INFO] Token: COMMA
-[INFO] Token: UNTYPED_IDENTIFIER
+[INFO] Token: UNDECLARED_IDENTIFIER
 [INFO] Token: EOL
-[INFO] ├─── Declared identifier fact:integer
-[INFO] ├─── Declared identifier n:integer
 [INFO] ├─── Declared identifier i:integer
+[INFO] ├─── Declared identifier n:integer
+[INFO] ├─── Declared identifier fact:integer
 [INFO] ╰┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉ Line 3: End of statement ┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉
 
 [INFO] | ◄ Retrieved identifier x = <UNDEFINED>:float
@@ -34,4 +40,99 @@
 [INFO] ├─── Assigned identifier i ← <3>:integer
 [INFO] ╰┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉ Line 7: End of statement ┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉
 
-[INFO] Token: UNTYPED_IDENTIFIER
+[INFO] | ◄ Retrieved identifier y = <UNDEFINED>:float
+[INFO] Token: IDENTIFIER
+[INFO] Token: ASSIGN
+[INFO] | ◄ Retrieved identifier i = <UNDEFINED>:integer
+[INFO] Token: IDENTIFIER
+[INFO] Identifier i:integer
+[INFO] Token: PLUS
+[INFO] | ◄ Retrieved identifier i = <UNDEFINED>:integer
+[INFO] Token: IDENTIFIER
+[INFO] Identifier i:integer
+[INFO] Token: TIMES
+[INFO] Token: INTEGER
+[INFO] Literal <3>:integer
+[INFO] Token: MINUS
+[INFO] | ◄ Retrieved identifier x = <UNDEFINED>:float
+[INFO] Token: IDENTIFIER
+[INFO] Identifier x:float
+[INFO] Token: EOL
+[INFO] ├─── Assigned identifier y ← <$t04>:float
+[INFO] ╰┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉ Line 8: End of statement ┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉
+
+[INFO] | ◄ Retrieved identifier n = <UNDEFINED>:integer
+[INFO] Token: IDENTIFIER
+[INFO] Token: ASSIGN
+[INFO] Token: INTEGER
+[INFO] Literal <10>:integer
+[INFO] Token: EOL
+[INFO] ├─── Assigned identifier n ← <10>:integer
+[INFO] ╰┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉ Line 11: End of statement ┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉
+
+[INFO] | ◄ Retrieved identifier fact = <UNDEFINED>:integer
+[INFO] Token: IDENTIFIER
+[INFO] Token: ASSIGN
+[INFO] Token: INTEGER
+[INFO] Literal <1>:integer
+[INFO] Token: EOL
+[INFO] ├─── Assigned identifier fact ← <1>:integer
+[INFO] ╰┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉ Line 12: End of statement ┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉
+
+[INFO] | ◄ Retrieved identifier i = <UNDEFINED>:integer
+[INFO] Token: IDENTIFIER
+[INFO] Token: ASSIGN
+[INFO] Token: INTEGER
+[INFO] Literal <2>:integer
+[INFO] Token: EOL
+[INFO] ├─── Assigned identifier i ← <2>:integer
+[INFO] ╰┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉ Line 13: End of statement ┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉
+
+[INFO] Token: REPEAT
+[INFO] | ◄ Retrieved identifier n = <UNDEFINED>:integer
+[INFO] Token: IDENTIFIER
+[INFO] Identifier n:integer
+[INFO] Token: MINUS
+[INFO] Token: INTEGER
+[INFO] Literal <1>:integer
+[INFO] Token: DO
+[INFO] Token: EOL
+[INFO] | ◄ Retrieved identifier fact = <UNDEFINED>:integer
+[INFO] Token: IDENTIFIER
+[INFO] Token: ASSIGN
+[INFO] | ◄ Retrieved identifier fact = <UNDEFINED>:integer
+[INFO] Token: IDENTIFIER
+[INFO] Identifier fact:integer
+[INFO] Token: TIMES
+[INFO] | ◄ Retrieved identifier i = <UNDEFINED>:integer
+[INFO] Token: IDENTIFIER
+[INFO] Identifier i:integer
+[INFO] Token: EOL
+[INFO] ├─── Assigned identifier fact ← <$t07>:integer
+[INFO] ╰┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉ Line 16: End of statement ┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉
+
+[INFO] | ◄ Retrieved identifier i = <UNDEFINED>:integer
+[INFO] Token: IDENTIFIER
+[INFO] Token: ASSIGN
+[INFO] | ◄ Retrieved identifier i = <UNDEFINED>:integer
+[INFO] Token: IDENTIFIER
+[INFO] Identifier i:integer
+[INFO] Token: PLUS
+[INFO] Token: INTEGER
+[INFO] Literal <1>:integer
+[INFO] Token: EOL
+[INFO] ├─── Assigned identifier i ← <$t08>:integer
+[INFO] ╰┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉ Line 17: End of statement ┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉
+
+[INFO] Token: DONE
+[INFO] Token: EOL
+[INFO] ╰┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉ Line 18: End of statement ┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉
+
+[INFO] | ◄ Retrieved identifier fact = <UNDEFINED>:integer
+[INFO] Token: IDENTIFIER
+[INFO] Token: EOL
+[INFO] Identifier fact:integer
+[INFO] ╰┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉ Line 20: End of statement ┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉
+
+[INFO] ╰┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉ Line 44: End of program ┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉
+

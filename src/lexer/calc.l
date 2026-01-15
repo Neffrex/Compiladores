@@ -44,6 +44,9 @@ EOL [\n]
 "("          { TOKEN(LPAREN); }
 ")"          { TOKEN(RPAREN); }
 
+"["          { TOKEN(LBRACKET); }
+"]"          { TOKEN(RBRACKET); }
+
 ":="         { TOKEN(ASSIGN); }
 "+"          { TOKEN(PLUS); }
 "-"          { TOKEN(MINUS); }
@@ -79,14 +82,15 @@ EOL [\n]
 
 {IDENTIFIER} {
   identifier_t id = getIdentifier(yytext);
-  id.name = strndup(yytext, yyleng); // For uninitialized identifiers
+  id.name = strndup(yytext, yyleng); 
   yylval.identifier = id;
 
   if(id.type != TYPE_UNDEFINED)
   { TOKEN(IDENTIFIER); }
   else
-  { id.declaration_lineno = yylineno-1;
-    TOKEN(UNTYPED_IDENTIFIER);
+  {	id.isArray = false; // Will be assigned while parsing
+		id.declaration_lineno = yylineno-1;
+    TOKEN(UNDECLARED_IDENTIFIER);
   }
 }
 

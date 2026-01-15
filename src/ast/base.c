@@ -42,3 +42,9 @@ operand_t createOperandFromIdentifier(identifier_t* id)
 	operand.identifier = *id;
 	return operand;
 }
+
+void endOfProgram(void)
+{
+	fprintf(yyout, "%d: %s\n", code_lineno, CODE_HALT);
+	log_message(LOG_INFO, LOG_MSG_END_OF_PROGRAM, yylineno);
+}

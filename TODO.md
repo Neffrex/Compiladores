@@ -5,7 +5,7 @@
 - [ ] Añadir cambios de tipo explicitos
 - [ ] Añadir tablas unidimensionales
 - [ ] Mejorar la salida de errores
-- [ ] Añadir notación cientifica 
+- [x] Añadir notación cientifica 
 
 ### Mejoras de código
 - [ ] Funciones de log en el log.c

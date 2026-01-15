@@ -35,6 +35,7 @@
 #define CODE_POW "<POW (Undefined)>"
 #define CODE_F2I "F2"
 #define CODE_I2F "I2"
+#define CODE_HALT "HALT"
 #define CODE_UNDEFINED "<undefined>"
 
 #define CODE_INTEGER_SUFIX "I"
@@ -58,8 +59,15 @@ typedef struct {
 // Identifiers
 typedef struct {
 	char* name;
+	bool isArray;
 	data_type_t type;
-	literal_t value;
+	union {
+		literal_t value;
+		struct {
+			literal_t* elements;
+			int size;
+		};
+	};
 	int declaration_lineno;
 } identifier_t;
 
