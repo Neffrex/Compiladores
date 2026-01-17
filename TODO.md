@@ -3,13 +3,13 @@
 - [x] Eliminar la lógica de los Strings
 - [x] Añadir las sentencias iterativas simples
 - [x] Añadir cambios de tipo explicitos
-- [ ] Añadir tablas unidimensionales
-- [ ] Mejorar la salida de errores
+- [x] Añadir tablas unidimensionales
+- [ ] (A medias) Mejorar la salida de errores
 - [x] Añadir notación cientifica 
 
 ### Mejoras de código
 - [x] Funciones de log en el log.c
-- [ ] Funciones de errores con parametros especificos que llame al halt con el formato que toque
+- [ ] (Descartada) Funciones de errores con parametros especificos que llame al halt con el formato que toque
 
 ### C3A
 Consideraciones:

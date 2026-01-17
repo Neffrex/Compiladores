@@ -4,7 +4,20 @@ operand_t arithmeticExpressionLiteral(literal_t* value)
 { return createOperandFromLiteral(value); }
 
 operand_t arithmeticExpressionIdentifier(identifier_t* id)
-{	return createOperandFromIdentifier(id); }
+{ return createOperandFromIdentifier(id); }
+
+operand_t arithmeticExpressionArrayIdentifier(identifier_t* id, literal_t* index)
+{
+	if(!isInteger(index)) {
+		halt(ERR_MSG_INVALID_ARRAY_INDEX_TYPE, literal2str(index), type2str(index->type));
+	}
+
+	identifier_t member = createTemporalIdentifier(id->members_type);
+	index->ivalue += 25;
+	log_message(LOG_MSG_ARITHMETIC_EXPRESSION_ARRAY_IDENTIFIER, member.name, id->name, index->ivalue);
+	cprint("%s := %s[%s]\n", member.name, id->name, literal2str(index));
+	return createOperandFromIdentifier(&member);
+}
 
 void logArithmeticExpressionUnaryEntry(op_type_t op, operand_t* operand)
 { log_message(LOG_MSG_ARITHMETIC_EXPRESSION_UNARY_ENTRY, op2str(op), operand2str(operand), type2str(getOperandDataType(operand))); }
@@ -116,20 +129,34 @@ literal_t computeArithmeticExpressionUnary(op_type_t op, literal_t* operand)
 	if(isInteger(operand))
 	{	
 		switch(op) {
-			case OP_NEGATE:    result.ivalue = -operand->ivalue; break;
+			case OP_NEGATE:
+				result.ivalue = -operand->ivalue;
+				result.type = TYPE_INTEGER;
+				break;
+			case OP_I2F:
+				result.fvalue = (float) operand->ivalue;
+				result.type = TYPE_FLOAT;
+				break;
 			default:
 				halt(ERR_MSG_INVALID_OPERATION, op2str(op), literal2str(operand), "");
 		}
-		result.type = TYPE_INTEGER;
+		
 	}
 	else if(isFloat(operand))
 	{	
 		switch (op) {
-			case OP_NEGATE:    result.fvalue = -operand->fvalue; break;
+			case OP_NEGATE:
+				result.fvalue = -operand->fvalue;
+				result.type = TYPE_FLOAT;
+				break;
+			case OP_F2I:
+				result.ivalue = (int) operand->fvalue;
+				result.type = TYPE_INTEGER;
+				break;
 			default:
 				halt(ERR_MSG_INVALID_OPERATION, op2str(op), literal2str(operand), "");
 		}
-		result.type = TYPE_FLOAT;
+		
 	}
 	else
 	{ halt(ERR_MSG_INVALID_OPERATION, op2str(op), literal2str(operand), ""); }
@@ -171,7 +198,7 @@ operand_t generateBinaryOperationCode(operand_t* loperand, op_type_t op, operand
 	{ tmp = generatePowC3aCode(loperand, roperand); }
 	else
 	{	tmp = createTemporalIdentifier(resultType);
-		fprintf(yyout, "%d: %s := %s %s%s %s\n", code_lineno++, tmp.name, operand2str(&tmp_loperand), op2code(op), SUFIX(resultType), operand2str(&tmp_roperand));
+		cprint("%s := %s %s%s %s\n", tmp.name, operand2str(&tmp_loperand), op2code(op), SUFIX(resultType), operand2str(&tmp_roperand));
 	}
 
 	log_message(LOG_MSG_ARITHMETIC_EXPRESSION_BINARY_TMP,
@@ -204,8 +231,7 @@ operand_t generateUnaryOperationCode(op_type_t op, operand_t* operand)
 	
 	const char* operand_str = operand2str(operand);
 	identifier_t tmp = createTemporalIdentifier(resultType);
-	fprintf(yyout, "%d: %s := %s%s %s\n",
-		code_lineno++,
+	cprint("%s := %s%s %s\n",
 		tmp.name,
 		op2code(op),
 		(resultType == TYPE_FLOAT) ? CODE_FLOAT_SUFIX : CODE_INTEGER_SUFIX,
@@ -228,30 +254,29 @@ identifier_t generatePowC3aCode(operand_t* loperand, operand_t* roperand)
 	identifier_t result = createTemporalIdentifier(TYPE_INTEGER);	
 
 	// result = 1
-	fprintf(yyout, "%d: %s := 1\n", code_lineno++, tmp_result);
+	cprint("%s := 1\n", tmp_result);
 	log_message("[ Arithmetic Expression ]: %s := 1 (POW result)", tmp_result);
 	
 	// counter = 0
-	fprintf(yyout, "%d: %s := 0\n", code_lineno++, tmp_counter);
+	cprint("%s := 0\n", tmp_counter);
 	log_message("[ Arithmetic Expression ]: %s := 0 (POW counter)", tmp_counter);
 	
 	// while counter < exponent
 	int loop_start = code_lineno;
-	code_lineno++; // To avoid the warning Wsequence-point
-	fprintf(yyout, "%d: IF %s GEI %s GOTO %d\n", code_lineno, tmp_counter, operand2str(roperand), code_lineno + 3);
+	cprint("IF %s GEI %s GOTO %d\n", tmp_counter, operand2str(roperand), code_lineno + 4);
 	
 	// result = result * base
-	fprintf(yyout, "%d: %s := %s MULI %s\n", code_lineno++, tmp_result, tmp_result, operand2str(loperand));
+	cprint("%s := %s MULI %s\n", tmp_result, tmp_result, operand2str(loperand));
 	
 	// counter = counter + 1
-	fprintf(yyout, "%d: %s := %s ADDI 1\n", code_lineno++, tmp_counter, tmp_counter);
+	cprint("%s := %s ADDI 1\n", tmp_counter, tmp_counter);
 	
 	// goto loop_start
-	fprintf(yyout, "%d: GOTO %d\n", code_lineno++, loop_start);
+	cprint("GOTO %d\n", loop_start);
 	
 	// L: done
 	// Assign final result to output identifier
-	fprintf(yyout, "%d: %s := %s\n", code_lineno++, result.name, tmp_result);
+	cprint("%s := %s\n", result.name, tmp_result);
 
 	return result;
 }

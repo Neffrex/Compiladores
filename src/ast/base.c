@@ -45,6 +45,6 @@ operand_t createOperandFromIdentifier(identifier_t* id)
 
 void endOfProgram(void)
 {
-	fprintf(yyout, "%d: %s\n", code_lineno, CODE_HALT);
+	fprintf(yyout, "%3d: %s\n", code_lineno, CODE_HALT);
 	log_message(LOG_MSG_END_OF_PROGRAM, yylineno);
 }

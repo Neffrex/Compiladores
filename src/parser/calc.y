@@ -72,13 +72,9 @@ statementList:
 
 statement:
   declaration[id]
-	
   | assignment[e]
-	
   | expression[e]
-	
   | iteration[e]
-	
 ;
 
 iteration:
@@ -113,6 +109,8 @@ identifierList:
 assignment:
   IDENTIFIER[l] ASSIGN arithmeticExpression[r]
 	{ assign(&$l, &$r); }
+  | IDENTIFIER[l] LBRACKET INTEGER[e] RBRACKET ASSIGN arithmeticExpression[r]
+	{ assign_array(&$l, &$e, &$r); }
 ;
 
 expression:
@@ -154,6 +152,8 @@ arithmeticExpressionX:
   { $$ = arithmeticExpressionLiteral(&$x); }
   | IDENTIFIER[x]
   { $$ = arithmeticExpressionIdentifier(&$x); }
+	| IDENTIFIER[x] LBRACKET INTEGER[i] RBRACKET
+	{ $$ = arithmeticExpressionArrayIdentifier(&$x, &$i); }
   | LPAREN arithmeticExpression[x] RPAREN
   { $$ = $x; }
 ;

@@ -1,6 +1,7 @@
 #pragma once
 #include <stdbool.h>
 #include <math.h>
+#include "io.h"
 #include "log.h"
 #include "types.h"
 #include "../../symtab/symtab.h"

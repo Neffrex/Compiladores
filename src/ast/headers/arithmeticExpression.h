@@ -11,6 +11,7 @@ extern FILE* yyout;
 
 operand_t arithmeticExpressionLiteral(literal_t* value);
 operand_t arithmeticExpressionIdentifier(identifier_t* id);
+operand_t arithmeticExpressionArrayIdentifier(identifier_t* id, literal_t* index);
 
 void logArithmeticExpressionUnaryEntry(op_type_t op, operand_t* operand);
 void logArithmeticExpressionBinaryEntry(operand_t* loperand, op_type_t op, operand_t* roperand);

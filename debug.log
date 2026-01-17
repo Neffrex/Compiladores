@@ -24,62 +24,68 @@
 • 08: End of statement
 >> i := 3
 
-[       Retrieved       ]: y:float (Unassigned)
-[       Retrieved       ]: i:integer (Unassigned)
-[       Retrieved       ]: i:integer (Unassigned)
-[ Arithmetic Expression ]: $t01 := i:integer * 3:integer
-[ Arithmetic Expression ]: $t02 := i:integer + $t01:integer
-[       Retrieved       ]: x:float (Unassigned)
-[ Arithmetic Expression ]: $t03 := I2F $t02:integer
-[ Arithmetic Expression ]: $t04 := $t03:float - x:float
-[      Assignation      ]: y := $t04:float
+[       Retrieved       ]: a:array (Unassigned)
+[      Assignation      ]: a[0+25] := 3:integer
 • 09: End of statement
->> y := i + i * 3 - x
+>> a[0] := 3
+
+[       Retrieved       ]: y:float (Unassigned)
+[       Retrieved       ]: a:array (Unassigned)
+[ Arithmetic Expression ]: $t01 := a[25]
+[       Retrieved       ]: i:integer (Unassigned)
+[ Arithmetic Expression ]: $t02 := i:integer * 3:integer
+[ Arithmetic Expression ]: $t03 := $t01:integer + $t02:integer
+[       Retrieved       ]: x:float (Unassigned)
+[ Arithmetic Expression ]: $t04 := I2F $t03:integer
+[ Arithmetic Expression ]: $t05 := $t04:float - x:float
+[      Assignation      ]: y := $t05:float
+• 10: End of statement
+>> y := a[0] + i * 3 - x
 
 [       Retrieved       ]: n:integer (Unassigned)
 [      Assignation      ]: n := 10:integer
-• 12: End of statement
+• 13: End of statement
 >> n := 10
 
 [       Retrieved       ]: fact:integer (Unassigned)
 [      Assignation      ]: fact := 1:integer
-• 13: End of statement
+• 14: End of statement
 >> fact := 1
 
 [       Retrieved       ]: i:integer (Unassigned)
 [      Assignation      ]: i := 2:integer
-• 14: End of statement
+• 15: End of statement
 >> i := 2
 
 [       Retrieved       ]: n:integer (Unassigned)
-[ Arithmetic Expression ]: $t05 := n:integer - 1:integer
-[ Iteration ]: $t06 := 0 (Iteration Counter)
-• 16: End of statement
+[ Arithmetic Expression ]: $t06 := n:integer - 1:integer
+[       Iteration       ]: $t07 := 0 (Iteration Counter)
+• 17: End of statement
 >> repeat n - 1 do
 
 [       Retrieved       ]: fact:integer (Unassigned)
 [       Retrieved       ]: fact:integer (Unassigned)
 [       Retrieved       ]: i:integer (Unassigned)
-[ Arithmetic Expression ]: $t07 := fact:integer * i:integer
-[      Assignation      ]: fact := $t07:integer
-• 17: End of statement
+[ Arithmetic Expression ]: $t08 := fact:integer * i:integer
+[      Assignation      ]: fact := $t08:integer
+• 18: End of statement
 >> fact := fact * i
 
 [       Retrieved       ]: i:integer (Unassigned)
 [       Retrieved       ]: i:integer (Unassigned)
-[ Arithmetic Expression ]: $t08 := i:integer + 1:integer
-[      Assignation      ]: i := $t08:integer
-• 18: End of statement
+[ Arithmetic Expression ]: $t09 := i:integer + 1:integer
+[      Assignation      ]: i := $t09:integer
+• 19: End of statement
 >> i := i + 1
 
-[       Iteration       ]: $t06 := $t06 ADDI 1 (Iteration Counter Increment)
-[       Iteration       ]: IF $t06 LTI $t05 GOTO 13 (Iteration Conditional Jump)
-• 19: End of statement
+[       Iteration       ]: $t07 := $t07 ADDI 1 (Iteration Counter Increment)
+[       Iteration       ]: IF $t07 LTI $t06 GOTO 15 (Iteration Conditional Jump)
+• 20: End of statement
 >> done
 
 [       Retrieved       ]: fact:integer (Unassigned)
-• 21: End of statement
+• 22: End of statement
 >> fact
 
-• 45: END OF FILE
+• 46: END OF FILE
 

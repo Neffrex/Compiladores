@@ -79,10 +79,32 @@ identifier_t assign(identifier_t* id, operand_t* operand)
   return *id;
 }
 
-void generateAssignCode(identifier_t* id, operand_t* operand)
+identifier_t assign_array(identifier_t* id, literal_t* index, operand_t* operand)
 {
-	fprintf(yyout, "%d: %s := %s\n", code_lineno++, id->name, operand2str(operand));
+	data_type_t type = getOperandDataType(operand);
+
+	if(id->type != TYPE_ARRAY)
+	{ halt(ERR_MSG_INVALID_ARRAY_IDENTIFIER, id->type); }
+	if(id->members_type != type)
+  { halt(ERR_MSG_TYPE_MISMATCH_ARRAY, operand2str(operand), type2str(type), id->name, literal2str(index), type2str(id->members_type)); }
+	if(!isInteger(index))
+	{ halt(ERR_MSG_INVALID_ARRAY_IDENTIFIER, index->type); }
+	if(index->ivalue < 0 || index->ivalue >= id->size)
+	{ halt(ERR_MSG_ARRAY_INDEX_OUT_OF_BOUNDS, literal2str(index), 0, id->size-1, id->name, id->size); }
+
+	log_message(LOG_MSG_IDENTIFIER_ASSIGNED_ARRAY, id->name, literal2str(index), operand2str(operand), type2str(getOperandDataType(operand)));
+	index->ivalue += 25;
+	generateDisplacedAssignCode(id, index, operand);
+	sym_enter(id->name, id);
+
+	return *id;	
 }
+
+void generateAssignCode(identifier_t* id, operand_t* operand)
+{ cprint("%s := %s\n", id->name, operand2str(operand)); }
+
+void generateDisplacedAssignCode(identifier_t* id, literal_t* index, operand_t* operand)
+{ cprint("%s[%s] := %s\n", id->name, literal2str(index), operand2str(operand)); }
 
 identifier_t getIdentifier(char* name)
 {
@@ -104,6 +126,6 @@ identifier_t getIdentifier(char* name)
 
 void expression(operand_t* operand)
 {
-	fprintf(yyout, "%d: PARAM %s\n", code_lineno++, operand2str(operand));
-	fprintf(yyout, "%d: CALL %s,1\n", code_lineno++, getOperandDataType(operand) == TYPE_INTEGER? "PUTI" : "PUTF");
+	cprint("PARAM %s\n", operand2str(operand));
+	cprint("CALL %s,1\n", getOperandDataType(operand) == TYPE_INTEGER? "PUTI" : "PUTF");
 }

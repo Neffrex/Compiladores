@@ -12,7 +12,8 @@ identifier_t createIdentifier(char* name);
 identifier_node_t* createIdentifierNode(identifier_t* id, identifier_node_t* next);
 
 identifier_t assign(identifier_t* id, operand_t* operand);
-identifier_t assign_array(identifier_t* id, operand_t* index, operand_t* operand);
+identifier_t assign_array(identifier_t* id, literal_t* index, operand_t* operand);
 void generateAssignCode(identifier_t* id, operand_t* operand);
+void generateDisplacedAssignCode(identifier_t* id, literal_t* index, operand_t* operand);
 identifier_t getIdentifier(char* name);
 void expression(operand_t* operand);

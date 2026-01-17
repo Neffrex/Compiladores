@@ -6,7 +6,8 @@ int a[25]
 # Expresiones
 x := 3.0 + 2
 i := 3
-y := i + i * 3 - x
+a[0] := 3
+y := a[0] + i * 3 - x
 
 # Factorial
 n := 10
