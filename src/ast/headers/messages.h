@@ -18,6 +18,11 @@
 
 #define ERR_MSG_DIVISION_BY_ZERO "[Semantic Error] Division by zero\n"
 
+// ITERATION
+#define LOG_MSG_ITERATION_COUNTER "[ Iteration ]: %s := %d (Iteration Counter)"
+#define LOG_MSG_ITERATION_COUNTER_INCREMENT "[       Iteration       ]: %s := %s ADDI %d (Iteration Counter Increment)"
+#define LOG_MSG_ITERATION_CONDITIONAL_JUMP "[       Iteration       ]: IF %s LTI %s GOTO %d (Iteration Conditional Jump)"
+
 // IDENTIFIERS
 #define LOG_MSG_IDENTIFIER_RETRIEVED "[       Retrieved       ]: %s:%s = %s:%s"
 #define LOG_MSG_UNDEFINED_IDENTIFIER_RETRIEVED "[       Retrieved       ]: %s:%s (Unassigned)"

@@ -67,18 +67,18 @@ program:
 statementList:
   %empty
 | statementList statement[s] EOL
-{ reset_line(); }
+{ log_message(LOG_MSG_END_OF_STATEMENT, yylineno-1, current_line); reset_line(); }
 ;
 
 statement:
   declaration[id]
-	{ log_message(LOG_MSG_END_OF_STATEMENT, yylineno-1, current_line); }
+	
   | assignment[e]
-	{ log_message(LOG_MSG_END_OF_STATEMENT, yylineno-1, current_line); }
+	
   | expression[e]
-	{ log_message(LOG_MSG_END_OF_STATEMENT, yylineno-1, current_line); }
+	
   | iteration[e]
-	{ log_message(LOG_MSG_END_OF_STATEMENT, yylineno-1, current_line); }
+	
 ;
 
 iteration:
@@ -87,7 +87,7 @@ iteration:
 		log_message(LOG_MSG_END_OF_STATEMENT, yylineno-1, current_line);
 		reset_line(); }
 	statementList DONE
-	{ iterationRepeatEnd(&$e, &$<identifier>5); reset_line(); }
+	{ iterationRepeatEnd(&$e, &$<identifier>5); }
 ;
 
 declaration:
