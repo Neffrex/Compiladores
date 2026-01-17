@@ -2,13 +2,13 @@
 - [x] Eliminar la lógica booleana
 - [x] Eliminar la lógica de los Strings
 - [x] Añadir las sentencias iterativas simples
-- [ ] Añadir cambios de tipo explicitos
+- [x] Añadir cambios de tipo explicitos
 - [ ] Añadir tablas unidimensionales
 - [ ] Mejorar la salida de errores
 - [x] Añadir notación cientifica 
 
 ### Mejoras de código
-- [ ] Funciones de log en el log.c
+- [x] Funciones de log en el log.c
 - [ ] Funciones de errores con parametros especificos que llame al halt con el formato que toque
 
 ### C3A

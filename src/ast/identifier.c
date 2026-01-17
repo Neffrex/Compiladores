@@ -6,9 +6,16 @@ identifier_node_t* declare(identifier_node_t* id_node, data_type_t type)
   {
     if(sym_lookup(current->id.name, &current->id) == SYMTAB_NOT_FOUND)
     {	
-      current->id.type = type;
+			if(current->id.type == TYPE_ARRAY)
+			{ current->id.members_type = type; }
+			else
+			{ current->id.type = type; }
+      
       sym_enter(current->id.name, &current->id);
-      log_message(LOG_INFO, LOG_MSG_IDENTIFIER_DECLARED, current->id.name, type2str(current->id.type));
+			if(current->id.type == TYPE_ARRAY)
+			{	log_message(LOG_MSG_IDENTIFIER_ARRAY_DECLARED, current->id.name, type2str(current->id.members_type), current->id.size); }
+      else
+			{ log_message(LOG_MSG_IDENTIFIER_DECLARED, current->id.name, type2str(current->id.type)); }
     } else 
     {	
       // Identifier already declared
@@ -31,9 +38,10 @@ identifier_t createArrayIdentifier(char* name, int size)
 {
 	identifier_t result;
 	result.name = name;
-	result.isArray = true;
-	result.type = TYPE_UNDEFINED;
-	result.elements = NULL;
+	result.type = TYPE_ARRAY;
+	result.value = createEmptyLiteral();
+	result.members = NULL;
+	result.members_type = TYPE_UNDEFINED;
 	result.size = size;
 	result.declaration_lineno = yylineno-1;
 	return result;
@@ -43,8 +51,8 @@ identifier_t createIdentifier(char* name)
 {
 	identifier_t result;
 	result.name = name;
-	result.isArray = true;
 	result.type = TYPE_UNDEFINED;
+	result.value = createEmptyLiteral();
 	result.declaration_lineno = yylineno-1;
 	return result;
 }
@@ -57,21 +65,14 @@ identifier_node_t* createIdentifierNode(identifier_t* id, identifier_node_t* nex
   return new_node;
 }
 
-void logAssignEntry(identifier_t* id, operand_t* operand)
-{
-  log_message(LOG_INFO, LOG_MSG_IDENTIFIER_ASSIGNED, id->name, operand2str(operand), type2str(getOperandDataType(operand)));
-}
-
 identifier_t assign(identifier_t* id, operand_t* operand)
 {
-  logAssignEntry(id, operand);
-
 	data_type_t type = getOperandDataType(operand);
 
   if(id->type != type)
   { halt(ERR_MSG_TYPE_MISMATCH, operand2str(operand), type2str(type), id->name, type2str(id->type)); }
 
-  // id->value = value;
+	log_message(LOG_MSG_IDENTIFIER_ASSIGNED, id->name, operand2str(operand), type2str(getOperandDataType(operand)));
 	generateAssignCode(id, operand);
   sym_enter(id->name, id);
 
@@ -88,9 +89,13 @@ identifier_t getIdentifier(char* name)
   identifier_t* id = (identifier_t*) malloc(sizeof(identifier_t));
   if(sym_lookup(name, id) != SYMTAB_NOT_FOUND)
   { 
-    char *svalue = literal2str(&id->value);
-    log_message(LOG_INFO, LOG_MSG_IDENTIFIER_RETRIEVED, id->name, svalue, type2str(id->type));
-    free(svalue);
+		if(id->value.type == TYPE_UNDEFINED)
+		{ log_message(LOG_MSG_UNDEFINED_IDENTIFIER_RETRIEVED, id->name, type2str(id->type)); }
+		else {
+			char *svalue = literal2str(&id->value);
+			log_message(LOG_MSG_IDENTIFIER_RETRIEVED, id->name, type2str(id->type), svalue, type2str(id->value.type));
+			free(svalue);
+		}
   } 
   identifier_t result = *id;
   free(id);

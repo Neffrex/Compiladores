@@ -14,6 +14,8 @@ extern void yyerror(const char *s);
 
 %code requires {
   #include "../ast/headers/compiler.h"
+	extern char current_line[];
+	extern void reset_line(void);
 }
 
 %union {
@@ -65,22 +67,27 @@ program:
 statementList:
   %empty
 | statementList statement[s] EOL
-{ log_message(LOG_INFO, LOG_MSG_END_OF_STATEMENT, yylineno-1);}
+{ reset_line(); }
 ;
 
 statement:
   declaration[id]
+	{ log_message(LOG_MSG_END_OF_STATEMENT, yylineno-1, current_line); }
   | assignment[e]
+	{ log_message(LOG_MSG_END_OF_STATEMENT, yylineno-1, current_line); }
   | expression[e]
+	{ log_message(LOG_MSG_END_OF_STATEMENT, yylineno-1, current_line); }
   | iteration[e]
+	{ log_message(LOG_MSG_END_OF_STATEMENT, yylineno-1, current_line); }
 ;
 
 iteration:
   REPEAT arithmeticExpression[e] DO EOL
-	{ $<identifier>$ = iterationRepeatStart(); } 
+	{ $<identifier>$ = iterationRepeatStart();
+		log_message(LOG_MSG_END_OF_STATEMENT, yylineno-1, current_line);
+		reset_line(); }
 	statementList DONE
-	{ iterationRepeatEnd(&$e, &$<identifier>5); }
-
+	{ iterationRepeatEnd(&$e, &$<identifier>5); reset_line(); }
 ;
 
 declaration:

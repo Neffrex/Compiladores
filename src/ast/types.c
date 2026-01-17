@@ -38,6 +38,7 @@ const char* type2str(data_type_t type)
   switch(type)
   {	case TYPE_INTEGER:   return S_INTEGER;
     case TYPE_FLOAT:     return S_FLOAT;
+		case TYPE_ARRAY:     return S_ARRAY;
     default: return S_UNDEFINED;
   }
 }
@@ -52,6 +53,8 @@ const char* op2str(op_type_t op)
     case OP_DIVIDE:          return S_DIVIDE;
     case OP_MOD:             return S_MOD;
     case OP_POW:             return S_POW;
+		case OP_F2I:             return S_F2I;
+		case OP_I2F:             return S_I2F;
     default: return S_NULL;
   }
 }

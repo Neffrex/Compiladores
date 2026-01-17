@@ -11,5 +11,5 @@ identifier_t iterationRepeatStart()
 void iterationRepeatEnd(operand_t* tmp_condition, identifier_t* tmp_counter)
 {
 	fprintf(yyout, "%d: %s := %s ADDI %d\n", code_lineno++, tmp_counter->name, tmp_counter->name, 1);
-	fprintf(yyout, "%d: IF %s LTI %s GOTO %d\n", code_lineno++, operand2str(tmp_condition), tmp_counter->name, tmp_counter->declaration_lineno+1);
+	fprintf(yyout, "%d: IF %s LTI %s GOTO %d\n", code_lineno++, tmp_counter->name, operand2str(tmp_condition), tmp_counter->declaration_lineno+1);
 }

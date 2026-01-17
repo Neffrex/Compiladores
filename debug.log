@@ -1,138 +1,83 @@
-[INFO] Token: TYPE
-[INFO] Token: UNDECLARED_IDENTIFIER
-[INFO] Token: COMMA
-[INFO] Token: UNDECLARED_IDENTIFIER
-[INFO] Token: EOL
-[INFO] ├─── Declared identifier x:float
-[INFO] ├─── Declared identifier y:float
-[INFO] ╰┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉ Line 2: End of statement ┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉
+[      Declaration      ]: x:float
+[      Declaration      ]: y:float
+• 02: End of statement
+>> float x, y
 
-[INFO] Token: TYPE
-[INFO] Token: UNDECLARED_IDENTIFIER
-[INFO] Token: LBRACKET
-[INFO] Token: INTEGER
-[INFO] Token: RBRACKET
-[INFO] Token: COMMA
-[INFO] Token: UNDECLARED_IDENTIFIER
-[INFO] Token: COMMA
-[INFO] Token: UNDECLARED_IDENTIFIER
-[INFO] Token: EOL
-[INFO] ├─── Declared identifier i:integer
-[INFO] ├─── Declared identifier n:integer
-[INFO] ├─── Declared identifier fact:integer
-[INFO] ╰┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉ Line 3: End of statement ┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉
+[      Declaration      ]: i:integer
+[      Declaration      ]: n:integer
+[      Declaration      ]: fact:integer
+• 03: End of statement
+>> int i, n, fact
 
-[INFO] | ◄ Retrieved identifier x = <UNDEFINED>:float
-[INFO] Token: IDENTIFIER
-[INFO] Token: ASSIGN
-[INFO] Token: FLOAT
-[INFO] Literal <5.000>:float
-[INFO] Token: EOL
-[INFO] ├─── Assigned identifier x ← <5.000>:float
-[INFO] ╰┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉ Line 6: End of statement ┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉
+[      Declaration      ]: a:integer[25]
+• 04: End of statement
+>> int a[25]
 
-[INFO] | ◄ Retrieved identifier i = <UNDEFINED>:integer
-[INFO] Token: IDENTIFIER
-[INFO] Token: ASSIGN
-[INFO] Token: INTEGER
-[INFO] Literal <3>:integer
-[INFO] Token: EOL
-[INFO] ├─── Assigned identifier i ← <3>:integer
-[INFO] ╰┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉ Line 7: End of statement ┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉
+[       Retrieved       ]: x:float (Unassigned)
+[ Arithmetic Expression ]: 3.000:float + 2:integer = 5.000:float
+[      Assignation      ]: x := 5.000:float
+• 07: End of statement
+>> x := 3.0 + 2
 
-[INFO] | ◄ Retrieved identifier y = <UNDEFINED>:float
-[INFO] Token: IDENTIFIER
-[INFO] Token: ASSIGN
-[INFO] | ◄ Retrieved identifier i = <UNDEFINED>:integer
-[INFO] Token: IDENTIFIER
-[INFO] Identifier i:integer
-[INFO] Token: PLUS
-[INFO] | ◄ Retrieved identifier i = <UNDEFINED>:integer
-[INFO] Token: IDENTIFIER
-[INFO] Identifier i:integer
-[INFO] Token: TIMES
-[INFO] Token: INTEGER
-[INFO] Literal <3>:integer
-[INFO] Token: MINUS
-[INFO] | ◄ Retrieved identifier x = <UNDEFINED>:float
-[INFO] Token: IDENTIFIER
-[INFO] Identifier x:float
-[INFO] Token: EOL
-[INFO] ├─── Assigned identifier y ← <$t04>:float
-[INFO] ╰┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉ Line 8: End of statement ┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉
+[       Retrieved       ]: i:integer (Unassigned)
+[      Assignation      ]: i := 3:integer
+• 08: End of statement
+>> i := 3
 
-[INFO] | ◄ Retrieved identifier n = <UNDEFINED>:integer
-[INFO] Token: IDENTIFIER
-[INFO] Token: ASSIGN
-[INFO] Token: INTEGER
-[INFO] Literal <10>:integer
-[INFO] Token: EOL
-[INFO] ├─── Assigned identifier n ← <10>:integer
-[INFO] ╰┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉ Line 11: End of statement ┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉
+[       Retrieved       ]: y:float (Unassigned)
+[       Retrieved       ]: i:integer (Unassigned)
+[       Retrieved       ]: i:integer (Unassigned)
+[ Arithmetic Expression ]: $t01 := 1 (POW result)
+[ Arithmetic Expression ]: $t02 := 0 (POW counter)
+[ Arithmetic Expression ]: $t03 := i:integer ** 3:integer
+[ Arithmetic Expression ]: $t04 := i:integer + $t03:integer
+[       Retrieved       ]: x:float (Unassigned)
+[ Arithmetic Expression ]: $t05 := I2F $t04:integer
+[ Arithmetic Expression ]: $t06 := $t05:float - x:float
+[      Assignation      ]: y := $t06:float
+• 09: End of statement
+>> y := i + i ** 3 - x
 
-[INFO] | ◄ Retrieved identifier fact = <UNDEFINED>:integer
-[INFO] Token: IDENTIFIER
-[INFO] Token: ASSIGN
-[INFO] Token: INTEGER
-[INFO] Literal <1>:integer
-[INFO] Token: EOL
-[INFO] ├─── Assigned identifier fact ← <1>:integer
-[INFO] ╰┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉ Line 12: End of statement ┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉
+[       Retrieved       ]: n:integer (Unassigned)
+[      Assignation      ]: n := 10:integer
+• 12: End of statement
+>> n := 10
 
-[INFO] | ◄ Retrieved identifier i = <UNDEFINED>:integer
-[INFO] Token: IDENTIFIER
-[INFO] Token: ASSIGN
-[INFO] Token: INTEGER
-[INFO] Literal <2>:integer
-[INFO] Token: EOL
-[INFO] ├─── Assigned identifier i ← <2>:integer
-[INFO] ╰┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉ Line 13: End of statement ┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉
+[       Retrieved       ]: fact:integer (Unassigned)
+[      Assignation      ]: fact := 1:integer
+• 13: End of statement
+>> fact := 1
 
-[INFO] Token: REPEAT
-[INFO] | ◄ Retrieved identifier n = <UNDEFINED>:integer
-[INFO] Token: IDENTIFIER
-[INFO] Identifier n:integer
-[INFO] Token: MINUS
-[INFO] Token: INTEGER
-[INFO] Literal <1>:integer
-[INFO] Token: DO
-[INFO] Token: EOL
-[INFO] | ◄ Retrieved identifier fact = <UNDEFINED>:integer
-[INFO] Token: IDENTIFIER
-[INFO] Token: ASSIGN
-[INFO] | ◄ Retrieved identifier fact = <UNDEFINED>:integer
-[INFO] Token: IDENTIFIER
-[INFO] Identifier fact:integer
-[INFO] Token: TIMES
-[INFO] | ◄ Retrieved identifier i = <UNDEFINED>:integer
-[INFO] Token: IDENTIFIER
-[INFO] Identifier i:integer
-[INFO] Token: EOL
-[INFO] ├─── Assigned identifier fact ← <$t07>:integer
-[INFO] ╰┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉ Line 16: End of statement ┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉
+[       Retrieved       ]: i:integer (Unassigned)
+[      Assignation      ]: i := 2:integer
+• 14: End of statement
+>> i := 2
 
-[INFO] | ◄ Retrieved identifier i = <UNDEFINED>:integer
-[INFO] Token: IDENTIFIER
-[INFO] Token: ASSIGN
-[INFO] | ◄ Retrieved identifier i = <UNDEFINED>:integer
-[INFO] Token: IDENTIFIER
-[INFO] Identifier i:integer
-[INFO] Token: PLUS
-[INFO] Token: INTEGER
-[INFO] Literal <1>:integer
-[INFO] Token: EOL
-[INFO] ├─── Assigned identifier i ← <$t08>:integer
-[INFO] ╰┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉ Line 17: End of statement ┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉
+[       Retrieved       ]: n:integer (Unassigned)
+[ Arithmetic Expression ]: $t07 := n:integer - 1:integer
+• 16: End of statement
+>> repeat n - 1 do
 
-[INFO] Token: DONE
-[INFO] Token: EOL
-[INFO] ╰┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉ Line 18: End of statement ┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉
+[       Retrieved       ]: fact:integer (Unassigned)
+[       Retrieved       ]: fact:integer (Unassigned)
+[       Retrieved       ]: i:integer (Unassigned)
+[ Arithmetic Expression ]: $t09 := fact:integer * i:integer
+[      Assignation      ]: fact := $t09:integer
+• 17: End of statement
+>> fact := fact * i
 
-[INFO] | ◄ Retrieved identifier fact = <UNDEFINED>:integer
-[INFO] Token: IDENTIFIER
-[INFO] Token: EOL
-[INFO] Identifier fact:integer
-[INFO] ╰┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉ Line 20: End of statement ┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉
+[       Retrieved       ]: i:integer (Unassigned)
+[       Retrieved       ]: i:integer (Unassigned)
+[ Arithmetic Expression ]: $t10 := i:integer + 1:integer
+[      Assignation      ]: i := $t10:integer
+• 18: End of statement
+>> i := i + 1
 
-[INFO] ╰┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉ Line 44: End of program ┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉
+• 18: End of statement
+>> 
+[       Retrieved       ]: fact:integer (Unassigned)
+• 21: End of statement
+>> fact
+
+• 45: END OF FILE
 

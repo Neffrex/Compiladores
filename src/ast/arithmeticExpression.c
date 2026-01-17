@@ -1,41 +1,52 @@
 #include "headers/arithmeticExpression.h"
 
 operand_t arithmeticExpressionLiteral(literal_t* value)
-{
-  log_message(LOG_INFO, LOG_MSG_LITERAL_VALUE, literal2str(value), type2str(value->type));
-  return createOperandFromLiteral(value);
-}
+{ return createOperandFromLiteral(value); }
 
 operand_t arithmeticExpressionIdentifier(identifier_t* id)
-{
-	log_message(LOG_INFO, LOG_MSG_IDENTIFIER_VALUE, id->name, type2str(id->type));
-	return createOperandFromIdentifier(id);
-}
+{	return createOperandFromIdentifier(id); }
 
 void logArithmeticExpressionUnaryEntry(op_type_t op, operand_t* operand)
-{}
+{ log_message(LOG_MSG_ARITHMETIC_EXPRESSION_UNARY_ENTRY, op2str(op), operand2str(operand), type2str(getOperandDataType(operand))); }
 
 void logArithmeticExpressionBinaryEntry(operand_t* loperand, op_type_t op, operand_t* roperand)
-{}
+{ log_message(LOG_MSG_ARITHMETIC_EXPRESSION_BINARY_ENTRY, operand2str(loperand), type2str(getOperandDataType(loperand)), op2str(op), operand2str(roperand), type2str(getOperandDataType(roperand))); }
 
-void logArithmeticExpressionResolution(literal_t* result) 
-{}
+void logArithmeticExpressionBinaryResolution(operand_t* loperand, op_type_t op, operand_t* roperand, literal_t* result)
+{ char* sresult = literal2str(result);
+	log_message(LOG_MSG_ARITHMETIC_EXPRESSION_BINARY_RESOLUTION, 
+		operand2str(loperand), type2str(getOperandDataType(loperand)),
+		op2str(op),
+		operand2str(roperand), type2str(getOperandDataType(roperand)),
+		sresult, type2str(result->type));
+	free(sresult);
+}
+
+void logArithmeticExpressionUnaryResolution(op_type_t op, operand_t* operand, literal_t* result)
+{ char* sresult = literal2str(result);
+	log_message(LOG_MSG_ARITHMETIC_EXPRESSION_BINARY_RESOLUTION, 
+		op2str(op),
+		operand2str(operand), type2str(getOperandDataType(operand)),
+		sresult, type2str(result->type)
+	);
+	free(sresult);
+}
 
 operand_t arithmeticExpressionBinary(operand_t* loperand, op_type_t op, operand_t* roperand)
 { 
 	operand_t result;
-	logArithmeticExpressionBinaryEntry(loperand, op, roperand);
 
 	if(loperand->type == OPERAND_LITERAL && roperand->type == OPERAND_LITERAL)
 	{
 		literal_t computedLiteral;
 		computedLiteral = computeArithmeticExpressionBinary(&loperand->literal, op, &roperand->literal);
 		result = createOperandFromLiteral(&computedLiteral);
-		logArithmeticExpressionResolution(&computedLiteral);
+		logArithmeticExpressionBinaryResolution(loperand, op, roperand, &computedLiteral);
 	}
 	else
 	{
 		result = generateBinaryOperationCode(loperand, op, roperand);
+		
 	}
 
 	return result;
@@ -82,14 +93,13 @@ literal_t computeArithmeticExpressionBinary(literal_t* loperand, op_type_t op, l
 operand_t arithmeticExpressionUnary(op_type_t op, operand_t* operand)
 {
 	operand_t result;
-	logArithmeticExpressionUnaryEntry(op, operand);
 	switch (operand->type)
 	{
 		case OPERAND_LITERAL:
 			literal_t computedLiteral;
 			computedLiteral = computeArithmeticExpressionUnary(op, &operand->literal);
 			result = createOperandFromLiteral(&computedLiteral);
-			logArithmeticExpressionResolution(&computedLiteral);
+			logArithmeticExpressionUnaryResolution(op, operand, &computedLiteral);
 			break;
 		case OPERAND_IDENTIFIER:
 			result = generateUnaryOperationCode(op, operand);
@@ -154,14 +164,22 @@ operand_t generateBinaryOperationCode(operand_t* loperand, op_type_t op, operand
 	operand_t tmp_roperand = (promotionCmp == PROMOTED_RIGHT) ? promotedTmp : *roperand;
 	
 
-	identifier_t tmp = createTemporalIdentifier(resultType);
+	identifier_t tmp;
 	
 	// POW has no direct translation
 	if(op == OP_POW)
-	{ generatePowC3aCode(&tmp, loperand, roperand); }
+	{ tmp = generatePowC3aCode(loperand, roperand); }
 	else
-	{	fprintf(yyout, "%d: %s := %s %s%s %s\n", code_lineno++, tmp.name, operand2str(&tmp_loperand), op2code(op), SUFIX(resultType), operand2str(&tmp_roperand)); }
+	{	tmp = createTemporalIdentifier(resultType);
+		fprintf(yyout, "%d: %s := %s %s%s %s\n", code_lineno++, tmp.name, operand2str(&tmp_loperand), op2code(op), SUFIX(resultType), operand2str(&tmp_roperand));
+	}
 
+	log_message(LOG_MSG_ARITHMETIC_EXPRESSION_BINARY_TMP,
+		tmp.name,
+		operand2str(&tmp_loperand), type2str(getOperandDataType(&tmp_loperand)),
+		op2str(op),
+		operand2str(&tmp_roperand), type2str(getOperandDataType(&tmp_roperand))
+	); 
 	return createOperandFromIdentifier(&tmp);
 }
 
@@ -194,26 +212,33 @@ operand_t generateUnaryOperationCode(op_type_t op, operand_t* operand)
 		operand_str
 	);
 
+	log_message(LOG_MSG_ARITHMETIC_EXPRESSION_UNARY_TMP, tmp.name,	op2str(op),	operand2str(operand), type2str(getOperandDataType(operand))
+	); 
+
 	return createOperandFromIdentifier(&tmp);
 }
 
-void generatePowC3aCode(identifier_t* result, operand_t* loperand, operand_t* roperand)
+identifier_t generatePowC3aCode(operand_t* loperand, operand_t* roperand)
 {
 	// Generate code for exponentiation using repeated multiplication
 	// result = loperand ^ roperand
 	char* tmp_result = createTemporalIdentifier(TYPE_INTEGER).name;
 	char* tmp_counter = createTemporalIdentifier(TYPE_INTEGER).name;
-	
+
+	identifier_t result = createTemporalIdentifier(TYPE_INTEGER);	
+
 	// result = 1
 	fprintf(yyout, "%d: %s := 1\n", code_lineno++, tmp_result);
+	log_message("[ Arithmetic Expression ]: %s := 1 (POW result)", tmp_result);
 	
 	// counter = 0
 	fprintf(yyout, "%d: %s := 0\n", code_lineno++, tmp_counter);
+	log_message("[ Arithmetic Expression ]: %s := 0 (POW counter)", tmp_counter);
 	
 	// while counter < exponent
 	int loop_start = code_lineno;
-	fprintf(yyout, "%d: IF %s GEI %s GOTO %d\n", code_lineno, tmp_counter, operand2str(roperand), code_lineno + 3);
 	code_lineno++; // To avoid the warning Wsequence-point
+	fprintf(yyout, "%d: IF %s GEI %s GOTO %d\n", code_lineno, tmp_counter, operand2str(roperand), code_lineno + 3);
 	
 	// result = result * base
 	fprintf(yyout, "%d: %s := %s MULI %s\n", code_lineno++, tmp_result, tmp_result, operand2str(loperand));
@@ -226,5 +251,7 @@ void generatePowC3aCode(identifier_t* result, operand_t* loperand, operand_t* ro
 	
 	// L: done
 	// Assign final result to output identifier
-	fprintf(yyout, "%d: %s := %s\n", code_lineno++, result->name, tmp_result);
+	fprintf(yyout, "%d: %s := %s\n", code_lineno++, result.name, tmp_result);
+
+	return result;
 }

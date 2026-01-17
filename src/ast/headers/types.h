@@ -8,13 +8,14 @@
 #define MAX_VERBOSE_SIZE 64
 
 // EMPTY VALUES
-#define S_UNDEFINED "UNDEFINED"
-#define S_NULL "NULL"
+#define S_UNDEFINED "undefined"
+#define S_NULL "null"
 #define S_NAN "NaN"
 
 // TYPES
 #define S_INTEGER "integer"
 #define S_FLOAT "float"
+#define S_ARRAY "array"
 
 // OPERATORS
 #define S_NEGATE "negate"
@@ -24,6 +25,9 @@
 #define S_DIVIDE "/"
 #define S_MOD "%"
 #define S_POW "**"
+#define S_F2I "F2I"
+#define S_I2F "I2F"
+
 
 // C3A
 #define CODE_NEGATE "CHS"
@@ -32,7 +36,7 @@
 #define CODE_TIMES "MUL"
 #define CODE_DIVIDE "DIV"
 #define CODE_MOD "MOD"
-#define CODE_POW "<POW (Undefined)>"
+#define CODE_POW "<POW:undefined>"
 #define CODE_F2I "F2"
 #define CODE_I2F "I2"
 #define CODE_HALT "HALT"
@@ -45,7 +49,8 @@
 typedef enum data_type_t {
 	TYPE_UNDEFINED,
 	TYPE_INTEGER,
-	TYPE_FLOAT
+	TYPE_FLOAT,
+	TYPE_ARRAY
 } data_type_t;
 
 typedef struct {
@@ -59,12 +64,12 @@ typedef struct {
 // Identifiers
 typedef struct {
 	char* name;
-	bool isArray;
 	data_type_t type;
 	union {
 		literal_t value;
 		struct {
-			literal_t* elements;
+			literal_t* members;
+			data_type_t members_type;
 			int size;
 		};
 	};

@@ -12,9 +12,33 @@
 #include "../parser/calc.tab.h"
 #include "../ast/headers/compiler.h"
 
-#define TOKEN(X) log_message(LOG_INFO, LOG_MSG_TOKEN_VALUE, #X); return X
+#define MAX_LINE_LEN 1024
+#define TRACK_LINE() append_to_line(yytext, yyleng)
+#define TOKEN(X) append_to_line(yytext, yyleng); return X
 
 void yyerror(const char *s);
+
+char current_line[MAX_LINE_LEN];
+static int  current_line_len = 0;
+
+/* Append text to the current line buffer */
+static void append_to_line(const char* text, int len) {
+  if (current_line_len + len >= MAX_LINE_LEN)
+    len = MAX_LINE_LEN - current_line_len - 1;
+
+  if (len > 0) {
+    memcpy(current_line + current_line_len, text, len);
+    current_line_len += len;
+    current_line[current_line_len] = '\0';
+  }
+}
+
+/* Reset line buffer (call on newline) */
+void reset_line(void) {
+  current_line_len = 0;
+  current_line[0] = '\0';
+}
+
 
 %}
 
@@ -81,6 +105,7 @@ EOL [\n]
 }
 
 {IDENTIFIER} {
+	
   identifier_t id = getIdentifier(yytext);
   id.name = strndup(yytext, yyleng); 
   yylval.identifier = id;
@@ -88,8 +113,7 @@ EOL [\n]
   if(id.type != TYPE_UNDEFINED)
   { TOKEN(IDENTIFIER); }
   else
-  {	id.isArray = false; // Will be assigned while parsing
-		id.declaration_lineno = yylineno-1;
+  {	id.declaration_lineno = yylineno-1;
     TOKEN(UNDECLARED_IDENTIFIER);
   }
 }
@@ -100,22 +124,28 @@ EOL [\n]
 <COMMENT>"*/\n"       { yylineno++; BEGIN(INITIAL); }
 <COMMENT>"*/"         { BEGIN(INITIAL); }
 <COMMENT>.            { }
-<COMMENT>{EOL}        { yylineno++; }
+<COMMENT>{EOL}        { yylineno++; reset_line(); }
 
 {EMPTY_LINE} { yylineno++; }
 
 {EOL} {
+	append_to_line(yytext, yyleng);
   yylineno++;
-  TOKEN(EOL);
+	return EOL;
 }
-{WHITESPACE}  { }
+{WHITESPACE}  { TRACK_LINE(); }
 <<EOF>>       { return 0; }
 .             { halt(ERR_MSG_UNDEFINED_SEQUENCE, yytext); }
 
 %%
 
 void yyerror(const char *msg) {
-	fprintf(stderr, "\033[31mERROR:%d:\033[0m %s\n", yylineno-1, msg);
+  fprintf(stderr,
+    "\033[31mERROR:%d:\033[0m %s\n>> %s\n",
+    yylineno - 1,
+    msg,
+    current_line
+  );
   exit(EXIT_FAILURE);
 }
 

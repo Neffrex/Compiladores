@@ -24,4 +24,4 @@ literal_t computeArithmeticExpressionUnary(op_type_t op, literal_t* operand);
 int typePromotion(operand_t* result, operand_t* loperand, operand_t* roperand);
 operand_t generateBinaryOperationCode(operand_t* loperand, op_type_t op, operand_t* roperand);
 operand_t generateUnaryOperationCode(op_type_t op, operand_t* operand);
-void generatePowC3aCode(identifier_t* result, operand_t* loperand, operand_t* roperand);
+identifier_t generatePowC3aCode(operand_t* loperand, operand_t* roperand);

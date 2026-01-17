@@ -18,21 +18,11 @@ void close_log() {
     }
 }
 
-void log_message(LogLevel level, const char *format, ...) {
+void log_message(const char *format, ...) {
     if (!log_file) return;
     va_list args;
     va_start(args, format);
 
-    const char *prefix;
-    switch (level) {
-        case LOG_INFO:    prefix = "INFO"; break;
-        case LOG_WARNING: prefix = "WARNING"; break;
-        case LOG_ERROR:   prefix = "ERROR"; break;
-        case LOG_DEBUG:   prefix = "DEBUG"; break;
-        default:          prefix = "LOG"; break;
-    }
-
-    fprintf(log_file, "[%s] ", prefix);
     vfprintf(log_file, format, args);
     va_end(args);
 
