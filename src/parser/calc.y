@@ -37,7 +37,7 @@ extern void yyerror(const char *s);
 %token <literal> INTEGER FLOAT
 %token <operator> PLUS MINUS TIMES DIVIDE MOD POW
 
-%token <identifier> IDENTIFIER UNDECLARED_IDENTIFIER
+%token <identifier> IDENTIFIER
 %type <no_type> statement statementList iteration
 
 
@@ -92,16 +92,16 @@ declaration:
 ;
 
 identifierList:
-	UNDECLARED_IDENTIFIER[id]
+	IDENTIFIER[id]
 	{ identifier_t identifier = createIdentifier($id.name);
 		$$ = createIdentifierNode(&identifier, NULL); }
-  | UNDECLARED_IDENTIFIER[id] LBRACKET INTEGER[size] RBRACKET
+  | IDENTIFIER[id] LBRACKET INTEGER[size] RBRACKET
 	{	identifier_t array = createArrayIdentifier($id.name, $size.ivalue);
 		$$ = createIdentifierNode(&array, NULL); }
-  | UNDECLARED_IDENTIFIER[id] COMMA identifierList[next]
+  | IDENTIFIER[id] COMMA identifierList[next]
 	{	identifier_t identifier = createIdentifier($id.name);
 		$$ = createIdentifierNode(&identifier, $next); }
-  | UNDECLARED_IDENTIFIER[id] LBRACKET INTEGER[size] RBRACKET COMMA identifierList[next]
+  | IDENTIFIER[id] LBRACKET INTEGER[size] RBRACKET COMMA identifierList[next]
 	{	identifier_t array = createArrayIdentifier($id.name, $size.ivalue);
 		$$ = createIdentifierNode(&array, $next); }
 ;

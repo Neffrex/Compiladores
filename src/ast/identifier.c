@@ -11,6 +11,8 @@ identifier_node_t* declare(identifier_node_t* id_node, data_type_t type)
 			else
 			{ current->id.type = type; }
       
+			current->id.declaration_lineno = yylineno-1;
+
       sym_enter(current->id.name, &current->id);
 			if(current->id.type == TYPE_ARRAY)
 			{	log_message(LOG_MSG_IDENTIFIER_ARRAY_DECLARED, current->id.name, type2str(current->id.members_type), current->id.size); }
@@ -19,7 +21,7 @@ identifier_node_t* declare(identifier_node_t* id_node, data_type_t type)
     } else 
     {	
       // Identifier already declared
-      halt(ERR_MSG_IDENTIFIER_ALREADY_DECLARED, current->id.name, current->id.declaration_lineno);
+      halt(ERR_MSG_IDENTIFIER_ALREADY_DECLARED, current->id.name, type2str(current->id.type), current->id.declaration_lineno);
     }
   }
   return id_node;

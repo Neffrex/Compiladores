@@ -105,17 +105,11 @@ EOL [\n]
 }
 
 {IDENTIFIER} {
-	
   identifier_t id = getIdentifier(yytext);
   id.name = strndup(yytext, yyleng); 
   yylval.identifier = id;
 
-  if(id.type != TYPE_UNDEFINED)
-  { TOKEN(IDENTIFIER); }
-  else
-  {	id.declaration_lineno = yylineno-1;
-    TOKEN(UNDECLARED_IDENTIFIER);
-  }
+  TOKEN(IDENTIFIER);
 }
 
 {SINGLE_LINE_COMMENT} { }

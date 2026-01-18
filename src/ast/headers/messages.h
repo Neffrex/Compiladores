@@ -5,12 +5,12 @@
 #define ERR_MSG_INVALID_FUNCTION_IDENTIFIER							"[Semantic Error] Invalid function identifier %d"
 
 #define ERR_MSG_IDENTIFIER_NOT_DECLARED									"[Semantic Error] Cannot find declaration of identifier '%s', first use in line %d"
+#define ERR_MSG_IDENTIFIER_ALREADY_DECLARED							"[Semantic Error] Identifier %s:%s already declared in line %d"
 #define ERR_MSG_INVALID_OPERATION												"[Semantic Error] Invalid Operation: %s %s %s"
 #define ERR_MSG_INVALID_OPERAND_TYPES										"[Semantic Error] Invalid operand types for: %s %s %s"
 #define ERR_MSG_INVALID_OPERAND_TYPE										"[Semantic Error] Invalid operand type %s for operation %s"
 
 #define ERR_MSG_INVALID_IDENTIFIER_TYPE									"[Semantic Error] Invalid identifier type %s for operation %s"
-#define ERR_MSG_IDENTIFIER_ALREADY_DECLARED							"[Semantic Error] Identifier already declared: Identifier %s was already declared in line <%d>"
 #define ERR_MSG_TYPE_MISMATCH														"[Semantic Error] Type mismatch: Cannot assign value %s:%s to identifier %s with type %s"
 #define ERR_MSG_TYPE_MISMATCH_ARRAY											"[Semantic Error] Type mismatch: Cannot assign value %s:%s to array element %s[%s]:%s"
 #define ERR_MSG_INVALID_ARRAY_IDENTIFIER								"[Semantic Error] Expected an array but got %s"
