@@ -19,12 +19,6 @@ operand_t arithmeticExpressionArrayIdentifier(identifier_t* id, literal_t* index
 	return createOperandFromIdentifier(&member);
 }
 
-void logArithmeticExpressionUnaryEntry(op_type_t op, operand_t* operand)
-{ log_message(LOG_MSG_ARITHMETIC_EXPRESSION_UNARY_ENTRY, op2str(op), operand2str(operand), type2str(getOperandDataType(operand))); }
-
-void logArithmeticExpressionBinaryEntry(operand_t* loperand, op_type_t op, operand_t* roperand)
-{ log_message(LOG_MSG_ARITHMETIC_EXPRESSION_BINARY_ENTRY, operand2str(loperand), type2str(getOperandDataType(loperand)), op2str(op), operand2str(roperand), type2str(getOperandDataType(roperand))); }
-
 void logArithmeticExpressionBinaryResolution(operand_t* loperand, op_type_t op, operand_t* roperand, literal_t* result)
 { char* sresult = literal2str(result);
 	log_message(LOG_MSG_ARITHMETIC_EXPRESSION_BINARY_RESOLUTION, 
